@@ -7,7 +7,6 @@ use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\types\GameMode;
 use pocketmine\Player;
 use pocketmine\block\Block;
-use pocketmine\block\Air;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 

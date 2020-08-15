@@ -7,7 +7,6 @@ use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\types\GameMode;
 use pocketmine\Player;
 use pocketmine\block\Block;
-use pocketmine\block\Air;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 
@@ -24,11 +23,11 @@ class Main extends PluginBase implements Listener
         $entity = $event->getEntity();
         if ($entity instanceof Player) {
             $cause = $event->getCause();
-            if ($cause = 3) {
-                if (!$entity->getGamemode() == 3) {
-                    $y = $entity->getFloorY() + 1;
-                    $Vector = new Vector3($entity->getFloorX(), $y, $entity->getFloorZ());
-                    if (!$entity->getLevel()->getBlock($Vector) instanceof Air) {
+            if ($cause === EntityDamageEvent::CAUSE_SUFFOCATION) {
+                if (!$entity->getGamemode() === 3) {
+                    $y = (int) $entity->getY() + 1;
+                    $Vector = new Vector3((int) $entity->getX(), $y, (int) $entity->getFloorZ());
+                    if ($entity->getLevel()->getBlock($Vector)->isSolid()) {
                         $event->setCancelled();
                         $entity->teleport($this->getServer()->getLevelByName('lobby')->getSafeSpawn());
                         $entity->sendPopup('§b埋まっていたため、lobbyに戻されました...');

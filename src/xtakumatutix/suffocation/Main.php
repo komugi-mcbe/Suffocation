@@ -25,8 +25,8 @@ class Main extends PluginBase implements Listener
             $cause = $event->getCause();
             if ($cause === EntityDamageEvent::CAUSE_SUFFOCATION) {
                 if (!$entity->getGamemode() === 3) {
-                    $y = $entity->getFloorY() + 1;
-                    $Vector = new Vector3($entity->getFloorX(), $y, $entity->getFloorZ());
+                    $y = (int) $entity->getY() + 1;
+                    $Vector = new Vector3((int) $entity->getX(), $y, (int) $entity->getFloorZ());
                     if ($entity->getLevel()->getBlock($Vector)->isSolid()) {
                         $event->setCancelled();
                         $entity->teleport($this->getServer()->getLevelByName('lobby')->getSafeSpawn());
